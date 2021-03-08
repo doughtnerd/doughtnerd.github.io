@@ -1,0 +1,44 @@
+name: Build and Deploy doughtnerd.github.io
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Install Dependencies
+        working-directory: .
+        run: npm install
+
+      - name: Build
+        working-directory: .
+        run: npm run build
+
+      - name: Archive Production Artifact Game
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: public/
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: game-dist
+          path: public/
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: public # The folder the action should deploy.
