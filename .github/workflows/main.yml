@@ -37,9 +37,13 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: dist
-          path: .
+          path: download/build-artifact/
+      # - name: Deploy
+      #   run: git checkout gh-pages \
+      #     cp download/build-artifact .
+      #     git add --a && git commit -
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: public/ # The folder the action should deploy.
+          folder: download/build-artifact/ # The folder the action should deploy.
