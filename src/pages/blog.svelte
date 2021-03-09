@@ -1,1 +1,0 @@
-<span>Blog</span>
